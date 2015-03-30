@@ -1,18 +1,20 @@
-﻿Shader "Dojo03_Gabarito/Specular" {
+﻿Shader "Dojo03/TextureSpecular" {
    Properties {
-      _Color ("Diffuse Material Color", Color) = (1,1,1,1) 
+      // Declaraçao da Textura aqui;
+      _Color ("Overall Diffuse Color Filter", Color) = (1,1,1,1)
       _SpecColor ("Specular Material Color", Color) = (1,1,1,1) 
-      _Shininess ("Shininess", Float) = 1
+      _Shininess ("Shininess", Float) = 10
    }
    SubShader {
-      Pass {	
+      Pass {      
          Tags { "LightMode" = "ForwardBase" } 
             // pass for ambient light and first light source
  
          GLSLPROGRAM
  
          // User-specified properties
-         uniform vec4 _Color; 
+         // Inicializaçao Textura aqui;
+         uniform vec4 _Color;
          uniform vec4 _SpecColor; 
          uniform float _Shininess;
  
@@ -28,43 +30,33 @@
          uniform vec4 _LightColor0; 
             // color of light source (from "Lighting.cginc")
  
-         varying vec4 position; 
-            // position of the vertex in world space 
-         varying vec3 varyingNormalDirection; 
-            // surface normal vector in world space
+         varying vec3 diffuseColor; 
+            // diffuse Phong lighting computed in the vertex shader
+         varying vec3 specularColor; 
+            // specular Phong lighting computed in the vertex shader
+         varying vec4 textureCoordinates; 
  
          #ifdef VERTEX
  
          void main()
-         {				
+         {                                
             mat4 modelMatrix = _Object2World;
             mat4 modelMatrixInverse = _World2Object; // unity_Scale.w 
                // is unnecessary because we normalize vectors
  
-            position = modelMatrix * gl_Vertex;
-            varyingNormalDirection = normalize(vec3(
+            vec3 normalDirection = normalize(vec3(
                vec4(gl_Normal, 0.0) * modelMatrixInverse));
- 
-            gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
-         }
- 
-         #endif
- 
-         #ifdef FRAGMENT
- 
-         void main()
-         {
-            vec3 normalDirection = normalize(varyingNormalDirection);
- 
-            vec3 viewDirection = 
-               normalize(_WorldSpaceCameraPos - vec3(position));
-            vec3 lightDirection;
-            lightDirection = normalize(vec3(_WorldSpaceLightPos0));
+            vec3 viewDirection = normalize(vec3(
+               vec4(_WorldSpaceCameraPos, 1.0) 
+               - modelMatrix * gl_Vertex));
+            vec3 lightDirection = normalize(vec3(_WorldSpaceLightPos0));
+
 
             vec3 ambientLighting = 
                vec3(gl_LightModel.ambient) * vec3(_Color);
  
-            vec3 diffuseReflection =  vec3(_LightColor0) * vec3(_Color) 
+            vec3 diffuseReflection = 
+               vec3(_LightColor0) * vec3(_Color) 
                * max(0.0, dot(normalDirection, lightDirection));
  
             vec3 specularReflection;
@@ -76,14 +68,25 @@
             }
             else // light source on the right side
             {
-               specularReflection =  vec3(_LightColor0) 
+               specularReflection = vec3(_LightColor0) 
                   * vec3(_SpecColor) * pow(max(0.0, dot(
                   reflect(-lightDirection, normalDirection), 
                   viewDirection)), _Shininess);
             }
  
-            gl_FragColor = vec4(ambientLighting + diffuseReflection 
-               + specularReflection, 1.0);
+            diffuseColor = ambientLighting + diffuseReflection;
+            specularColor = specularReflection;
+            textureCoordinates = gl_MultiTexCoord0;
+            gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
+         }
+ 
+         #endif
+ 
+         #ifdef FRAGMENT
+ 
+         void main()
+         {
+			// Codigo Aqui
          }
  
          #endif
@@ -91,7 +94,5 @@
          ENDGLSL
       }
  
-      
    } 
-
 }

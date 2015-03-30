@@ -1,4 +1,4 @@
-﻿Shader "Dojo03/Diffuse" {
+﻿Shader "Dojo03_Gabarito/Diffuse" {
    Properties {
       _Color ("Diffuse Material Color", Color) = (1,1,1,1) 
    }
