@@ -12,7 +12,8 @@
          #ifdef FRAGMENT
          void main()
          {
-           // Codigo Aqui.
+           vec4 corVermelha = vec4(1.0, 0.0, 0.0, 1.0);
+           gl_FragColor = corVermelha;
          }
          #endif
          ENDGLSL 

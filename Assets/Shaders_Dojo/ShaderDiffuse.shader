@@ -20,6 +20,15 @@
             mat4 modelMatrixInverse = _World2Object;
             
             // Codigo Aqui
+            vec3 modelNormalized = normalize(gl_Normal);
+            vec4 lightNormalized = normalize(_WorldSpaceLightPos0);
+            
+            float diffuseContribution = dot(modelNormalized, lightNormalized.xyz);
+            
+            color = _Color * diffuseContribution;
+            color.a = 1.0;
+            // Posicionamento do vertice na tela
+            gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;
          }
  
          #endif
