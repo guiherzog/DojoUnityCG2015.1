@@ -1,4 +1,4 @@
-﻿Shader "Dojo03_Gabarito/TextureSpecular" {
+﻿Shader "Dojo_Gabarito/TextureSpecular" {
    Properties {
       _MainTex ("Texture For Diffuse Material Color", 2D) = "white" {} 
       _Color ("Overall Diffuse Color Filter", Color) = (1,1,1,1)

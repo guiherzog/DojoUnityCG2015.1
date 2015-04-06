@@ -1,4 +1,4 @@
-﻿Shader "Dojo03_Gabarito/Color" {
+﻿Shader "Dojo_Gabarito/Color" {
    SubShader { // Unity chooses the subshader that fits the GPU best
       Pass { // some shaders require multiple passes
          GLSLPROGRAM // here begins the part in Unity's GLSL

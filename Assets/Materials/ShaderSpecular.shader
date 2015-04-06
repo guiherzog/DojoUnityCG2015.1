@@ -1,4 +1,4 @@
-﻿Shader "Dojo03_Gabarito/Specular" {
+﻿Shader "Dojo_Gabarito/Specular" {
    Properties {
       _Color ("Diffuse Material Color", Color) = (1,1,1,1) 
       _SpecColor ("Specular Material Color", Color) = (1,1,1,1) 
