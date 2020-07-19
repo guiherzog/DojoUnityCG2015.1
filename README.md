@@ -1,4 +1,4 @@
-## Dojo about Shader s using OpenGL on Unity3D Editor
+## Sample of OpenGL Shaders on Unity3D Editor
 ### Computer Graphics Class 2015.1
 #### Computer Science Department at the Federal University of Rio de Janeiro, Brazil.
 
